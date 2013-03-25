@@ -5,7 +5,6 @@ describe Array do
 
   subject(:array) { Array.new }
 
-
   describe "#my_uniq" do
     before do
       @array = [1, 2, 2, 3, 1]
