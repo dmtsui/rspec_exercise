@@ -15,13 +15,24 @@ describe Hanoi do
   end
 
   describe "#valid_move?" do
-    let(:hanoi1) {double(Hanoi.new(3), :piles => [ [3], [1, 2], [] ])}
 
     it "validates move" do
-      hanoi1.valid_move?([0,1]).should be_false
-      hanoi1.valid_move?([1,2]).should be_true
+      hanoi.valid_move?([0,1]).should be_true
+      hanoi.valid_move?([1,2]).should be_false
     end
+  end
 
+  describe "#move" do
+    it "moves piece to another pile" do
+      hanoi.move(0,1)
+      hanoi.piles.should == [[2,3],[1],[]]
+    end
+  end
+
+  describe "#render" do
+    it "renders the state of the board" do
+      hanoi.render.should == "1 | |\n2 | |\n3 | |\nTTTTT\n"
+    end
   end
 
   describe "#win?" do

@@ -7,6 +7,25 @@ class Hanoi
     @piles[0] = (1..num_discs).to_a
   end
 
+  def move(from, to)
+    @piles[to].unshift(@piles[from].shift)
+  end
+
+  def render
+    draw = []
+    screen = ""
+    num_discs.times do |col|
+      line =[]
+      num_discs.times do |row|
+        line << (@piles[row][col].nil? ? "|" : @piles[row][col])
+      end
+      draw << line
+    end
+    draw.each do |row|
+      screen += row.join(" ") + "\n"
+    end
+    screen += "TTTTT\n"
+  end
 
   def valid_move?(input)
 
