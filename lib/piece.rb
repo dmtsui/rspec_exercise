@@ -1,5 +1,5 @@
 class Piece
-  attr_accessor :color
+  attr_accessor :color, :space
 
   def initialize(color, space)
     @color = color
@@ -12,6 +12,10 @@ class Piece
 
   def flip
     @color = (@color == :W) ? :B : :W
+  end
+
+  def to_s
+    "Piece#{position}"
   end
 
 
