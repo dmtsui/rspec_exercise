@@ -9,10 +9,10 @@ class Board
 		@spaces = Array.new(8) {Array.new(8)}
     @pieces = []
 		generate_spaces
-    set_piece(:W,[3,3])
-    set_piece(:B,[3,4])
-    set_piece(:W,[4,4])
-    set_piece(:B,[4,3])
+    set_piece(:white,[3,3])
+    set_piece(:black,[3,4])
+    set_piece(:white,[4,4])
+    set_piece(:black,[4,3])
 		true
 	end
 
@@ -34,6 +34,24 @@ class Board
     your_pieces
   end
 
+  def move(color,position)
+    p "move #{position}"
+
+    valid_moves = get_valid_moves(color)
+    p "valid moves #{valid_moves}"
+    if valid_moves.keys.include?(position)
+      p "valid move!"
+      set_piece(color, position)
+      flip_pieces(valid_moves[position])
+    else
+      "Not a Valid Move"
+    end
+  end
+
+  def flip_pieces(pieces)
+    pieces.each {|piece| piece.flip}
+  end
+
   def get_valid_moves(color)
     valid_moves = {} # {[3,3] => [[2,3],[4,6]]}
     pieces = get_all_pieces(color)
@@ -41,7 +59,7 @@ class Board
       piece = pieces.pop
       get_directions(piece).each do |dir|
         move = direction(piece , dir)
-        valid_moves.merge(move) unless move.nil?
+        valid_moves.merge!(move) unless move.nil?
       end
     end
     valid_moves

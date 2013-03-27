@@ -11,7 +11,7 @@ class Piece
   end
 
   def flip
-    @color = (@color == :W) ? :B : :W
+    @color = (@color == :white) ? :black : :white
   end
 
   def to_s
