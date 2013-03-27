@@ -35,16 +35,16 @@ class Board
   end
 
   def get_valid_moves(color)
-    valid_moves = []
+    valid_moves = {} # {[3,3] => [[2,3],[4,6]]}
     pieces = get_all_pieces(color)
     while pieces.count > 0
       piece = pieces.pop
       get_directions(piece).each do |dir|
         move = direction(piece , dir)
-        valid_moves << move unless move.nil?
+        valid_moves.merge(move) unless move.nil?
       end
     end
-    valid_moves.uniq
+    valid_moves
   end
 
   def get_directions(piece)
@@ -60,14 +60,16 @@ class Board
   def direction(start, direction)
     row, col = start.position
     dr, dc = direction
+    flip_pieces = []
     return nil if !inbounds?([row+dr,col+dc]) or !@spaces[row+dr][col+dc].has_piece?
 
     while inbounds?([row+dr,col+dc])
       row += dr ; col += dc
       if @spaces[row][col].has_piece?
         return nil if @spaces[row][col].piece.color == start.color
+        flip_pieces << @spaces[row][col].piece
       else
-        return [row,col]
+        return {[row,col] => flip_pieces}
       end
     end
   end
